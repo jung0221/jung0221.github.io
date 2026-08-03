@@ -1,14 +1,23 @@
-# this file contains the social media links and usernames of the author
-# the socials will be displayed in the order they are defined here
-# for more information, please refer to the documentation of jekyll-socials plugin: https://github.com/george-gca/jekyll-socials
-cv_pdf: /assets/pdf/example_pdf.pdf # path to your CV PDF file
-email: you@example.com # your email address
-inspirehep_id: 1010907 # Inspire HEP author ID
-rss_icon: true # comment this line to hide the RSS icon
-scholar_userid: qc6CJjYAAAAJ # your Google Scholar ID
-# wechat_qr: # filename of your wechat qr-code saved as an image (e.g., wechat-qr.png if saved to assets/img/wechat-qr.png)
-# whatsapp_number: # your WhatsApp number (full phone number in international format. Omit any zeroes, brackets, or dashes when adding the phone number in international format.)
-custom_social: # can be any name here other than the ones already defined in the jekyll-socials plugin
-  logo: https://www.alberteinstein.com/wp-content/uploads/2024/03/cropped-favicon-192x192.png # can be png, svg, jpg
-  title: Custom Social
-  url: https://www.alberteinstein.com/
+# Social / academic profile links. Rendered in the order defined here.
+# Full list of supported keys: https://github.com/george-gca/jekyll-socials
+#
+# Anything commented out below is a link I could not find anywhere on your
+# machine. Uncomment the line and fill in the ID to make the icon appear —
+# nothing else needs to change.
+
+email: jungchoi@usp.br
+github_username: jung0221
+linkedin_username: jungeuichoi
+cv_pdf: /assets/pdf/jungeui_choi_cv.pdf # path to your CV PDF file
+
+# TODO: ORCID iD, e.g. 0000-0002-1825-0097 — register free at https://orcid.org
+# orcid_id: 0000-0000-0000-0000
+
+# TODO: Lattes ID — the 16-digit number in your http://lattes.cnpq.br/<id> URL
+# lattes_id: 0000000000000000
+
+# TODO: Google Scholar user ID — the `user=` parameter of your profile URL
+# scholar_userid: XXXXXXXXXXXX
+
+# RSS is off because the blog is disabled; uncomment if you re-enable it.
+# rss_icon: true
