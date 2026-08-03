@@ -20,22 +20,29 @@
 %   html / code / slides / poster / video / award   extra buttons
 % -----------------------------------------------------------------------------
 
+% NOTE: `%` only starts a comment BETWEEN entries, never inside one — BibTeX
+% treats it as ordinary text there and the parser emits a lexer warning.
+%
+% TODO: confirm the `address` below. Busan was inferred from an IFAC2026 hotel
+% booking on your machine dated 2026-08-22; the paper itself does not state it.
 @inproceedings{choi2026periodic,
   abbr         = {IFAC},
+  bibtex_show  = {true},
   title        = {3D Electrical Impedance Tomography Reconstruction Using Periodic-Activation Neural Networks},
   author       = {Choi, Jungeui and Emura, Hector S. and Duran, Guilherme C. and Tsuzuki, Marcos S. G.},
   booktitle    = ifac,
   year         = {2026},
-  % TODO: confirm the venue city. Inferred from an IFAC2026 hotel booking on your
-  % machine for 2026-08-22 in Busan; the paper itself does not state it.
   address      = {Busan, Republic of Korea},
   note         = {Accepted for presentation},
   selected     = {true},
   abstract     = {Electrical Impedance Tomography (EIT) seeks to recover internal conductivity distributions from boundary voltage measurements, but the inverse problem is severely ill-posed and highly sensitive to noise. This work investigates sinusoidal and hyperbolic-sinusoidal neural networks for domain-dependent 3D EIT reconstruction. The proposed formulation provides a representation capable of capturing both smooth and high-frequency spatial features. Results using a synthetic dataset containing 3D phantoms show that the hyperbolic-sinusoidal model offers sharper boundary recovery, more accurate conductivity contrast, and higher resilience to measurement noise compared to the standard sinusoidal model. These findings indicate that periodic-activation neural networks form a promising framework for high-resolution 3D EIT reconstruction.},
 }
 
+% The LUNAS PDF is self-hosted because the article is open access under CC BY.
+% The IEEE and IFAC papers are linked by venue/DOI instead of redistributed.
 @article{choi2026lunas,
   abbr         = {BSPC},
+  bibtex_show  = {true},
   title        = {Lung automatic seeding and segmentation: A robust method based on relaxed oriented image foresting transform},
   author       = {Choi, Jungeui and Condori, Marcos A. T. and Miranda, Paulo A. V. and Tsuzuki, Marcos S. G.},
   journal      = bspc,
@@ -45,7 +52,7 @@
   publisher    = {Elsevier},
   doi          = {10.1016/j.bspc.2026.109537},
   html         = {https://doi.org/10.1016/j.bspc.2026.109537},
-  pdf          = {choi2026_lunas.pdf}, % open access, CC BY — safe to self-host
+  pdf          = {choi2026_lunas.pdf},
   code         = {https://github.com/jung0221/LUNAS},
   selected     = {true},
   abstract     = {In radiotherapy, medical image segmentation is performed to achieve a more structured view of the patient's anatomical region. Automatic segmentation methods aim to eliminate the significant time investment required by the manual and semi-automatic segmentation processes that are most commonly used today. The present work describes an innovative seed-based automatic segmentation method for computed tomography (CT) images, known as LUNg Automatic Seeding and Segmentation (LUNAS). The study compares LUNAS with other segmentation algorithms from the Lung CT Segmentation Challenge (LCTSC), which are based on neural networks and multi-atlas approaches. The findings indicate that LUNAS achieved a Dice accuracy metric of 0.96 and 0.97 for the left and right lungs, respectively, matching the top-performing deep learning methods in the competition. Additionally, other state-of-the-art methods were evaluated for comparison, including one seed-based method similar to LUNAS, as well as a deep learning method. Using three other public thoracic CT image datasets, a detailed and fair analysis was performed to compare the algorithms indicating the effectiveness of LUNAS. LUNAS also has the ability to segment other regions, such as the trachea, bones, and skin.},
@@ -53,6 +60,7 @@
 
 @inproceedings{choi2025implicit,
   abbr         = {EMBC},
+  bibtex_show  = {true},
   title        = {On the Implicit Representation of the Electrical Impedance Tomography Inverse Problem},
   author       = {Choi, Jungeui and Song, Lucas and Martins, Henrique S. and Imai, Rodrigo H. and Parducci, Mateus S. and Romani, Luigi F. and Campos, Marcos A. B. and Duran, Guilherme C. and Martins, Thiago C. and Tsuzuki, Marcos S. G.},
   booktitle    = embc,
@@ -64,6 +72,7 @@
 
 @inproceedings{duran2025sinusoidal,
   abbr         = {EMBC},
+  bibtex_show  = {true},
   title        = {Sinusoidal Representation of the Electrical Impedance Tomography Inverse Problem},
   author       = {Duran, Guilherme Cortez and Song, Lucas and Martins, Henrique Sturlini and Imai, Rodrigo Hideki and Parducci, Mateus S. and Campos, Marcos A. B. and Romani, Luigi F. and Choi, Jungeui and Martins, Thiago Castro and Tsuzuki, Marcos Sales Guerra},
   booktitle    = embc,
@@ -74,6 +83,7 @@
 
 @inproceedings{choi2022automatic,
   abbr         = {ICGG},
+  bibtex_show  = {true},
   title        = {Automatic lung segmentation with seed generation and ROIFT algorithm for the creation of anatomical atlas},
   author       = {Choi, Jungeui and Ueda, Edson Kenji and Duran, Guilherme Cortez and Miranda, Paulo A. V. and Tsuzuki, Marcos de Sales Guerra},
   booktitle    = icgg,

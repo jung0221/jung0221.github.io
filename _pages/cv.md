@@ -3,10 +3,10 @@ layout: cv
 permalink: /cv/
 title: CV
 nav: true
-nav_order: 5
-cv_pdf: /assets/pdf/example_pdf.pdf # you can also use external links here
-cv_format: rendercv # options: rendercv, jsonresume
-description: This is a description of the page. You can modify it in '_pages/cv.md'. You can also change or remove the top pdf download button.
+nav_order: 4
+cv_pdf: /assets/pdf/jungeui_choi_cv.pdf # rendered from ~/Documents/resume/general_template
+cv_format: rendercv # data lives in _data/cv.yml
+description: Education, experience and projects. The PDF version is linked above.
 toc:
   sidebar: left
 ---

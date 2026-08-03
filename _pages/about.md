@@ -2,33 +2,65 @@
 layout: about
 title: about
 permalink: /
-subtitle: <a href='#'>Affiliations</a>. Address. Contacts. Motto. Etc.
+subtitle: >
+  PhD candidate, <a href="https://www.poli.usp.br/">Escola Politécnica</a>,
+  <a href="https://www5.usp.br/">University of São Paulo</a> ·
+  Department of Mechatronics and Mechanical Systems Engineering
 
 profile:
   align: right
+  # TODO: replace with a real photograph. Drop the file in assets/img/ and put
+  # its filename here. Until then the theme's placeholder is used.
   image: prof_pic.jpg
   image_circular: false # crops the image to make it circular
   more_info: >
-    <p>555 your office number</p>
-    <p>123 your address street</p>
-    <p>Your City, State 12345</p>
+    <p>Escola Politécnica, USP</p>
+    <p>Av. Prof. Mello Moraes, 2231</p>
+    <p>São Paulo, SP 05508-030, Brazil</p>
 
 selected_papers: true # includes a list of papers marked as "selected={true}"
 social: true # includes social icons at the bottom of the page
 
 announcements:
-  enabled: true # includes a list of news items
-  scrollable: true # adds a vertical scroll bar if there are more than 3 news items
-  limit: 5 # leave blank to include all the news in the `_news` folder
+  enabled: false # no news items yet; add files to _news/ and flip this to true
+  scrollable: true
+  limit: 5
 
 latest_posts:
-  enabled: true
-  scrollable: true # adds a vertical scroll bar if there are more than 3 new posts items
-  limit: 3 # leave blank to include all the blog posts
+  enabled: false # blog is disabled
+  scrollable: true
+  limit: 3
 ---
 
-Write your biography here. Tell the world about yourself. Link to your favorite [subreddit](https://www.reddit.com). You can put a picture in, too. The code is already in, just name your picture `prof_pic.jpg` and put it in the `img/` folder.
+I am a direct-entry doctoral candidate at the Escola Politécnica of the University
+of São Paulo, in the Department of Mechatronics and Mechanical Systems
+Engineering, advised by
+[Prof. Marcos de Sales Guerra Tsuzuki](https://www.poli.usp.br/). My work is
+funded by a FAPESP doctoral fellowship (grant 2025/04329-4).
 
-Put your address / P.O. box / other info right below your picture. You can also disable any of these elements by editing `profile` property of the YAML header of your `_pages/about.md`. Edit `_bibliography/papers.bib` and Jekyll will render your [publications page](/al-folio/publications/) automatically.
+My research concerns the **three-dimensional inverse problem in Electrical
+Impedance Tomography** (EIT). EIT recovers the internal conductivity distribution
+$$\sigma$$ of a body from boundary voltages induced by injected currents. The
+forward map is governed by the elliptic problem
 
-Link to your social media connections, too. This theme is set up to use [Font Awesome icons](https://fontawesome.com/) and [Academicons](https://jpswalsh.github.io/academicons/), like the ones below. Add your Facebook, Twitter, LinkedIn, Google Scholar, or just disable all of them.
+$$
+\nabla \cdot (\sigma \nabla u) = 0 \quad \text{in } \Omega,
+$$
+
+with the complete electrode model imposed on $$\partial\Omega$$. Its inverse is
+severely ill-posed: small perturbations of the measured voltages correspond to
+large deviations in the recovered conductivity, and in three dimensions the
+number of unknowns far exceeds the number of independent measurements. The
+question that organises my work is how to supply the missing information as a
+*learned prior* over anatomically plausible conductivity fields, rather than as a
+generic smoothness penalty.
+
+I approach this through implicit neural representations, generative models
+(diffusion, normalizing flows, flow matching) and statistical shape models built
+from segmented computed tomography. A description of the individual threads,
+with results, is on the [research]({{ '/research/' | relative_url }}) page.
+
+Alongside the doctorate I work as a software developer, building AI agent
+systems — retrieval-augmented generation, agent orchestration and the Model
+Context Protocol — which is also where much of the engineering practice behind
+the research pipeline comes from.

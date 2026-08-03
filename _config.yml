@@ -223,8 +223,6 @@ exclude:
   - Gemfile.lock
   - HOWTO.md
   - LICENSE
-  - package.json
-  - package-lock.json
   - gems/
   - migrations/
   - vendor
@@ -316,8 +314,9 @@ terser:
 # -----------------------------------------------------------------------------
 
 # Archives are generated from blog posts; with the blog disabled there is nothing
-# to archive. Re-add a `posts:` block here if you turn the blog back on.
-jekyll-archives:
+# to archive. An empty hash (not nil) is what the plugin expects when unused.
+# Re-add a `posts:` block here if you turn the blog back on.
+jekyll-archives: {}
 
 display_tags: [] # these tags will be displayed on the front page of your blog
 display_categories: [] # these categories will be displayed on the front page of your blog
