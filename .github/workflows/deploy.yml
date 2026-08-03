@@ -19,22 +19,11 @@ on:
   push:
     branches:
       - main
-    paths:
-      - "assets/**"
-      - "_bibliography/**"
-      - "_data/**"
-      - "_news/**"
-      - "_pages/**"
-      - "_posts/**"
-      - "**.bib"
-      - "**.html"
-      - "**.js"
-      - "**.liquid"
-      - "**/*.md"
-      - "**.yml"
-      - "Gemfile"
-      - "Gemfile.lock"
-      - "!HOWTO.md"
+    # Deliberately NO `paths:` filter. The upstream theme ships one, but it
+    # silently skipped the very first push here — the workflow was registered and
+    # never ran, which reads exactly like a broken workflow. A five-page site does
+    # not benefit from skipping builds, and a missed rebuild costs far more time
+    # than a redundant 80-second one.
   pull_request:
     branches:
       - main
@@ -67,6 +56,10 @@ jobs:
           pip3 install --upgrade nbconvert
           export JEKYLL_ENV=production
           bundle exec jekyll build
+          # Pages serves gh-pages through its own legacy Jekyll pass, which would
+          # re-process this already-built site and drop anything under a path
+          # starting with "_". .nojekyll tells it to serve the files verbatim.
+          touch _site/.nojekyll
 
       - name: Deploy 🚀
         if: github.event_name != 'pull_request'
