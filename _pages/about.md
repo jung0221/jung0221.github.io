@@ -9,10 +9,8 @@ subtitle: >
 
 profile:
   align: right
-  # TODO: replace with a real photograph. Drop the file in assets/img/ and put
-  # its filename here. Until then the theme's placeholder is used.
   image: prof_pic.jpg
-  image_circular: false # crops the image to make it circular
+  image_circular: false # a circular crop would cut this landscape shot badly
   more_info: >
     <p>Escola Politécnica, USP</p>
     <p>Av. Prof. Mello Moraes, 2231</p>

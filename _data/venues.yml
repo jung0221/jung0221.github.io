@@ -1,9 +1,17 @@
-"AJP":
-  url: https://aapt.scitation.org/journal/ajp
+# Colour and link for the venue tag shown beside each publication.
+# The key must match the `abbr` field of the entry in _bibliography/papers.bib.
+
+"BSPC":
+  url: https://www.sciencedirect.com/journal/biomedical-signal-processing-and-control
   color: "#00369f"
 
-"PhysRev":
-  url: https://journals.aps.org/
+"EMBC":
+  url: https://www.embs.org/embc/
+  color: "#0f7b6c"
 
-"Vision":
-  color: "#009f36"
+"IFAC":
+  url: https://www.ifac-control.org/
+  color: "#8a3ffc"
+
+"ICGG":
+  color: "#b35c00"
