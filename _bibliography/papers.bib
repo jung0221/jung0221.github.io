@@ -1,115 +1,83 @@
 ---
 ---
 
-@string{aps = {American Physical Society,}}
+@string{bspc = {Biomedical Signal Processing and Control}}
+@string{embc = {47th Annual International Conference of the IEEE Engineering in Medicine and Biology Society (EMBC)}}
+@string{ifac = {IFAC World Congress}}
+@string{icgg = {International Conference on Geometry and Graphics (ICGG)}}
 
-@book{einstein1920relativity,
-  title     = {Relativity: the Special and General Theory},
-  author    = {Einstein, Albert},
-  year      = {1920},
-  publisher = {Methuen & Co Ltd},
-  html      = {relativity.html}
+% -----------------------------------------------------------------------------
+% This is the ONLY place publications are defined. The Publications page renders
+% straight from here, grouped by year, newest first.
+%
+% al-folio-specific fields you can add to any entry:
+%   abbr      short venue tag shown in the left margin
+%   selected  {true} pins the entry to the "selected publications" block on the
+%             About page
+%   pdf       file in assets/pdf/ (or a full URL)
+%   preview   image in assets/img/publication_preview/
+%   abstract  expandable abstract
+%   html / code / slides / poster / video / award   extra buttons
+% -----------------------------------------------------------------------------
+
+@inproceedings{choi2026periodic,
+  abbr         = {IFAC},
+  title        = {3D Electrical Impedance Tomography Reconstruction Using Periodic-Activation Neural Networks},
+  author       = {Choi, Jungeui and Emura, Hector S. and Duran, Guilherme C. and Tsuzuki, Marcos S. G.},
+  booktitle    = ifac,
+  year         = {2026},
+  % TODO: confirm the venue city. Inferred from an IFAC2026 hotel booking on your
+  % machine for 2026-08-22 in Busan; the paper itself does not state it.
+  address      = {Busan, Republic of Korea},
+  note         = {Accepted for presentation},
+  selected     = {true},
+  abstract     = {Electrical Impedance Tomography (EIT) seeks to recover internal conductivity distributions from boundary voltage measurements, but the inverse problem is severely ill-posed and highly sensitive to noise. This work investigates sinusoidal and hyperbolic-sinusoidal neural networks for domain-dependent 3D EIT reconstruction. The proposed formulation provides a representation capable of capturing both smooth and high-frequency spatial features. Results using a synthetic dataset containing 3D phantoms show that the hyperbolic-sinusoidal model offers sharper boundary recovery, more accurate conductivity contrast, and higher resilience to measurement noise compared to the standard sinusoidal model. These findings indicate that periodic-activation neural networks form a promising framework for high-resolution 3D EIT reconstruction.},
 }
 
-@book{einstein1956investigations,
-  bibtex_show = {true},
-  title       = {Investigations on the Theory of the Brownian Movement},
-  author      = {Einstein, Albert},
-  year        = {1956},
-  publisher   = {Courier Corporation},
-  preview     = {brownian-motion.gif}
+@article{choi2026lunas,
+  abbr         = {BSPC},
+  title        = {Lung automatic seeding and segmentation: A robust method based on relaxed oriented image foresting transform},
+  author       = {Choi, Jungeui and Condori, Marcos A. T. and Miranda, Paulo A. V. and Tsuzuki, Marcos S. G.},
+  journal      = bspc,
+  volume       = {117},
+  pages        = {109537},
+  year         = {2026},
+  publisher    = {Elsevier},
+  doi          = {10.1016/j.bspc.2026.109537},
+  html         = {https://doi.org/10.1016/j.bspc.2026.109537},
+  pdf          = {choi2026_lunas.pdf}, % open access, CC BY — safe to self-host
+  code         = {https://github.com/jung0221/LUNAS},
+  selected     = {true},
+  abstract     = {In radiotherapy, medical image segmentation is performed to achieve a more structured view of the patient's anatomical region. Automatic segmentation methods aim to eliminate the significant time investment required by the manual and semi-automatic segmentation processes that are most commonly used today. The present work describes an innovative seed-based automatic segmentation method for computed tomography (CT) images, known as LUNg Automatic Seeding and Segmentation (LUNAS). The study compares LUNAS with other segmentation algorithms from the Lung CT Segmentation Challenge (LCTSC), which are based on neural networks and multi-atlas approaches. The findings indicate that LUNAS achieved a Dice accuracy metric of 0.96 and 0.97 for the left and right lungs, respectively, matching the top-performing deep learning methods in the competition. Additionally, other state-of-the-art methods were evaluated for comparison, including one seed-based method similar to LUNAS, as well as a deep learning method. Using three other public thoracic CT image datasets, a detailed and fair analysis was performed to compare the algorithms indicating the effectiveness of LUNAS. LUNAS also has the ability to segment other regions, such as the trachea, bones, and skin.},
 }
 
-@article{einstein1950meaning,
-  abbr        = {AJP},
-  bibtex_show = {true},
-  title       = {The meaning of relativity},
-  author      = {Einstein, Albert and Taub, AH},
-  journal     = {American Journal of Physics},
-  volume      = {18},
-  number      = {6},
-  pages       = {403--404},
-  year        = {1950},
-  publisher   = {American Association of Physics Teachers}
+@inproceedings{choi2025implicit,
+  abbr         = {EMBC},
+  title        = {On the Implicit Representation of the Electrical Impedance Tomography Inverse Problem},
+  author       = {Choi, Jungeui and Song, Lucas and Martins, Henrique S. and Imai, Rodrigo H. and Parducci, Mateus S. and Romani, Luigi F. and Campos, Marcos A. B. and Duran, Guilherme C. and Martins, Thiago C. and Tsuzuki, Marcos S. G.},
+  booktitle    = embc,
+  year         = {2025},
+  organization = {IEEE},
+  selected     = {true},
+  abstract     = {Electrical Impedance Tomography (EIT) is a noninvasive imaging method that reconstructs internal conductivity maps by applying low-frequency electrical currents through surface electrodes and measuring the resulting voltages. While EIT's inverse problem is inherently ill-posed, requiring regularization techniques to stabilize solutions, recent advances in neural networks offer promising alternatives for improving reconstruction accuracy. This study investigates the application of Deep Implicit Layers to EIT reconstruction, combining fixed-point iteration and Newton's method to solve implicit constraints. The forward problem is solved using the finite element method (FEM), and numerical phantoms are employed for training. To ensure a more realistic representation of measurement conditions, contact conductivity was modeled as a random variable sampled from a Gaussian distribution, improving the model's robustness and ability to handle uncertainties. The implicit neural network effectively distinguishes closely positioned objects; however, contrast limitations persist at the boundaries of the phantoms. The results highlight the potential of implicit models in EIT and suggest future improvements through advanced optimization techniques and expansion to 3D thorax reconstruction.},
 }
 
-@article{PhysRev.47.777,
-  abbr              = {PhysRev},
-  title             = {Can Quantum-Mechanical Description of Physical Reality Be Considered Complete?},
-  author            = {Einstein*†, A. and Podolsky*, B. and Rosen*, N.},
-  abstract          = {In a complete theory there is an element corresponding to each element of reality. A sufficient condition for the reality of a physical quantity is the possibility of predicting it with certainty, without disturbing the system. In quantum mechanics in the case of two physical quantities described by non-commuting operators, the knowledge of one precludes the knowledge of the other. Then either (1) the description of reality given by the wave function in quantum mechanics is not complete or (2) these two quantities cannot have simultaneous reality. Consideration of the problem of making predictions concerning a system on the basis of measurements made on another system that had previously interacted with it leads to the result that if (1) is false then (2) is also false. One is thus led to conclude that the description of reality as given by a wave function is not complete.},
-  journal           = {Phys. Rev.},
-  location          = {New Jersey},
-  volume            = {47},
-  issue             = {10},
-  pages             = {777--780},
-  numpages          = {0},
-  year              = {1935},
-  month             = {May},
-  publisher         = aps,
-  doi               = {10.1103/PhysRev.47.777},
-  url               = {https://link.aps.org/doi/10.1103/PhysRev.47.777},
-  html              = {https://journals.aps.org/pr/abstract/10.1103/PhysRev.47.777},
-  pdf               = {example_pdf.pdf},
-  altmetric         = {248277},
-  dimensions        = {true},
-  google_scholar_id = {qyhmnyLat1gC},
-  video             = {https://www.youtube-nocookie.com/embed/aqz-KE-bpKQ},
-  additional_info   = {. *More Information* can be [found here](https://github.com/alshedivat/al-folio/)},
-  annotation        = {* Example use of superscripts<br>† Albert Einstein},
-  selected          = {true},
-  inspirehep_id     = {3255}
+@inproceedings{duran2025sinusoidal,
+  abbr         = {EMBC},
+  title        = {Sinusoidal Representation of the Electrical Impedance Tomography Inverse Problem},
+  author       = {Duran, Guilherme Cortez and Song, Lucas and Martins, Henrique Sturlini and Imai, Rodrigo Hideki and Parducci, Mateus S. and Campos, Marcos A. B. and Romani, Luigi F. and Choi, Jungeui and Martins, Thiago Castro and Tsuzuki, Marcos Sales Guerra},
+  booktitle    = embc,
+  year         = {2025},
+  organization = {IEEE},
+  abstract     = {This work explores the use of Sinusoidal Multi-Layer Perceptrons (SMLPs) for image reconstruction in Electrical Impedance Tomography (EIT). Leveraging periodic activation functions and a principled weight initialization, SMLPs demonstrate a strong capacity to recover fine spatial details and maintain robustness to measurement noise. A hierarchical hyperparameter optimization strategy is proposed to efficiently identify performant architectures with reduced computational cost. Compared to a baseline convolutional neural network, the optimized SMLP achieved lower reconstruction errors across multiple datasets, while using fewer than one-third of the trainable parameters. These results highlight the potential of sinusoidal activations for solving high-dimensional inverse problems.},
 }
 
-@article{einstein1905molekularkinetischen,
-  title     = {{\"U}ber die von der molekularkinetischen Theorie der W{\"a}rme geforderte Bewegung von in ruhenden Fl{\"u}ssigkeiten suspendierten Teilchen},
-  author    = {Einstein, A.},
-  journal   = {Annalen der physik},
-  volume    = {322},
-  number    = {8},
-  pages     = {549--560},
-  year      = {1905},
-  publisher = {Wiley Online Library}
-}
-
-@article{einstein1905movement,
-  abbr    = {Ann. Phys.},
-  title   = {Un the movement of small particles suspended in statiunary liquids required by the molecular-kinetic theory 0f heat},
-  author  = {Einstein, A.},
-  journal = {Ann. Phys.},
-  volume  = {17},
-  pages   = {549--560},
-  year    = {1905}
-}
-
-@article{einstein1905electrodynamics,
-  title  = {On the electrodynamics of moving bodies},
-  author = {Einstein, A.},
-  year   = {1905}
-}
-
-@article{einstein1905photoelectriceffect,
-  bibtex_show = {true},
-  abbr        = {Ann. Phys.},
-  title       = {{{\"U}ber einen die Erzeugung und Verwandlung des Lichtes betreffenden heuristischen Gesichtspunkt}},
-  author      = {Albert Einstein},
-  abstract    = {This is the abstract text.},
-  journal     = {Ann. Phys.},
-  volume      = {322},
-  number      = {6},
-  pages       = {132--148},
-  year        = {1905},
-  doi         = {10.1002/andp.19053220607},
-  award       = {Albert Einstein receveid the **Nobel Prize in Physics** 1921 *for his services to Theoretical Physics, and especially for his discovery of the law of the photoelectric effect*},
-  award_name  = {Nobel Prize}
-}
-
-@book{przibram1967letters,
-  bibtex_show = {true},
-  title       = {Letters on wave mechanics},
-  author      = {Einstein, Albert and Schrödinger, Erwin and Planck, Max and Lorentz, Hendrik Antoon and Przibram, Karl},
-  year        = {1967},
-  publisher   = {Vision},
-  preview     = {wave-mechanics.gif},
-  abbr        = {Vision}
+@inproceedings{choi2022automatic,
+  abbr         = {ICGG},
+  title        = {Automatic lung segmentation with seed generation and ROIFT algorithm for the creation of anatomical atlas},
+  author       = {Choi, Jungeui and Ueda, Edson Kenji and Duran, Guilherme Cortez and Miranda, Paulo A. V. and Tsuzuki, Marcos de Sales Guerra},
+  booktitle    = icgg,
+  pages        = {636--647},
+  year         = {2022},
+  organization = {Springer},
 }
