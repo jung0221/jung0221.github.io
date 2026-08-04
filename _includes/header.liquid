@@ -168,8 +168,12 @@
                 title="{{ t.switch_title }}"
                 aria-label="{{ t.switch_title }}"
               >
+                {%- comment -%}
+                  The code shown is the CURRENT language, not the target. The
+                  tooltip and the link carry the action.
+                {%- endcomment -%}
                 <i class="fa-solid fa-language" aria-hidden="true"></i>
-                <span class="lang-toggle__code">{{ t.switch_code }}</span>
+                <span class="lang-toggle__code">{{ t.code }}</span>
               </a>
             </li>
           {% endif %}

@@ -10,10 +10,13 @@
 
 en:
   name: English
-  # Shown on the language button: the language you switch TO.
-  switch_to: Português
-  switch_code: PT
-  switch_title: "Ver este site em português"
+  # Shown on the language button: the language you are reading RIGHT NOW, not
+  # the one the button switches to. Reading "PT" while the page is in English
+  # is the confusing way round.
+  code: EN
+  # The tooltip is what carries the action, and it is written in the language of
+  # the page it appears on.
+  switch_title: "View this site in Portuguese"
   search_title: Search
   theme_title: Change theme
   skip_to_content: Skip to content
@@ -35,9 +38,8 @@ en:
 
 pt:
   name: Português
-  switch_to: English
-  switch_code: EN
-  switch_title: "View this site in English"
+  code: PT
+  switch_title: "Ver este site em inglês"
   search_title: Buscar
   theme_title: Alternar tema
   skip_to_content: Pular para o conteúdo
