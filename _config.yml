@@ -16,8 +16,14 @@ footer_text: >
   Hosted by <a href="https://pages.github.com/" target="_blank">GitHub Pages</a>.
 keywords: electrical impedance tomography, inverse problems, deep learning, generative models, implicit neural representations, statistical shape models, medical imaging, University of São Paulo
 lang: en # the language of your site (for example: en, fr, cn, ru, etc.)
-icon: ⚡ # the emoji used as the favicon (alternatively, provide image name in /assets/img/)
-apple_touch_icon: # image name in /assets/img/ (or a rooted path / absolute URL) used for iOS home-screen bookmarks; needs a real 180x180 PNG, since Safari ignores the emoji favicon above. Left empty, iOS falls back to a screenshot of the page.
+# The eitannsolver project logo, from ~/Documents/Doutorado/repos/repo-logos.
+# SVG rather than the 512px PNG: a favicon is drawn at 16-32px, and a raster
+# downscale of a twelve-edge network graph turns to mush at that size, whereas
+# the vector stays crisp. The background is transparent, so it works on a light
+# or a dark browser tab.
+icon: eitannsolver.svg # image name in /assets/img/ (or an emoji)
+# Safari ignores an SVG here, so iOS home-screen bookmarks get the raster copy.
+apple_touch_icon: eitannsolver-512.png
 
 url: https://jung0221.github.io # the base hostname & protocol for your site
 baseurl: "" # user-page repo (jung0221.github.io) serves from the domain root, so this MUST stay empty
