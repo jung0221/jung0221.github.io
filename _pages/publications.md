@@ -18,6 +18,20 @@ nav_order: 3
 
 <div class="publications">
 
-{% bibliography %}
+{%- comment -%}
+  Relabels the code-repository button "GitHub". Its text is hardcoded in the
+  theme's 411-line _layouts/bib.liquid, which has no hook for button labels, so
+  substituting it in the rendered output is one line here instead of a fork of
+  the file most likely to change on the next theme upgrade.
+
+  The match includes the closing tag so it cannot touch a title or an abstract
+  that happens to contain the word. A Liquid comment, not an HTML one, so the
+  pattern itself does not end up in the page.
+
+  The same two lines appear in publications.pt.md and in _layouts/about.liquid,
+  which renders the selected-papers list.
+{%- endcomment -%}
+{% capture bibliography %}{% bibliography %}{% endcapture %}
+{{ bibliography | replace: '>Code</a>', '>GitHub</a>' }}
 
 </div>

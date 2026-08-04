@@ -80,7 +80,13 @@ layout: default
       <h2>
         <a href="{{ pubs_url | relative_url }}" style="color: inherit">{{ t.selected_publications }}</a>
       </h2>
-      {% include selected_papers.liquid %}
+      {%- comment -%}
+        Relabels the "Code" button "GitHub"; see the comment in
+        _pages/publications.md for why this is a substitution rather than a fork
+        of the theme's _layouts/bib.liquid.
+      {%- endcomment -%}
+      {% capture selected %}{% include selected_papers.liquid %}{% endcapture %}
+      {{ selected | replace: '>Code</a>', '>GitHub</a>' }}
     {% endif %}
 
     <!-- Social -->

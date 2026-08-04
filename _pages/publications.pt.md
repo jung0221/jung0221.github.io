@@ -21,6 +21,9 @@ nav_order: 3
 
 <div class="publications">
 
-{% bibliography %}
+<!-- Relabels the "Code" button "GitHub"; see the comment in publications.md for
+     why this is a substitution rather than a fork of _layouts/bib.liquid. -->
+{% capture bibliography %}{% bibliography %}{% endcapture %}
+{{ bibliography | replace: '>Code</a>', '>GitHub</a>' }}
 
 </div>
