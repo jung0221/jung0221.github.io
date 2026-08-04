@@ -116,14 +116,63 @@ MathJax is on (`enable_math: true`). In any page:
 
 ---
 
+## Add or edit a page in both languages
+
+The site is **English-first with a Portuguese mirror**, using real pages at real
+URLs (`/research/` and `/pt/research/`) rather than swapping text with
+JavaScript — so both versions are crawlable and work with scripting off.
+
+Every page carries two extra front-matter keys:
+
+```yaml
+lang: en # or: pt
+ref: research # the SAME slug in both languages — this is what pairs them
+```
+
+The `ref` is the whole mechanism. The navigation shows only pages whose `lang`
+matches the current page, and the language button links to the page with the
+same `ref` in the other language. **If a `ref` exists in only one language the
+button silently disappears on that page**, which is the intended failure mode —
+better a missing button than a link to a 404.
+
+So to add a page:
+
+1. `_pages/thing.md` — `lang: en`, `ref: thing`, `permalink: /thing/`
+2. `_pages/thing.pt.md` — `lang: pt`, `ref: thing`, `permalink: /pt/thing/`
+3. Both need `nav: true` and the **same** `nav_order`.
+4. Give it an icon and a colour in `_data/nav_style.yml`, keyed by the `ref`:
+
+   ```yaml
+   thing:
+     icon: fa-solid fa-flask # any Font Awesome 6 free solid icon
+     tint: "14, 154, 167" # r, g, b — light mode
+     tint_dark: "64, 208, 216" # r, g, b — dark mode
+   ```
+
+   Without an entry the page still appears, just with no icon and the default
+   cobalt glow.
+
+Interface strings — button tooltips, CV section headings — live in
+`_data/i18n.yml`, keyed by language. Never hardcode a visible English string in
+a layout or include.
+
+---
+
 ## Update the CV
 
-Two files, kept in sync by hand:
+Three files, kept in sync by hand:
 
 | What | Where |
 |---|---|
 | The rendered `/cv/` page | `_data/cv.yml` |
+| The rendered `/pt/cv/` page | `_data/cv_pt.yml` |
 | The downloadable PDF | `assets/pdf/jungeui_choi_cv.pdf` |
+
+In `cv_pt.yml` the **section keys stay in English** (`Education`, `Experience`,
+…). The renderer dispatches on them to choose a per-section template; the
+displayed headings are translated in `_data/i18n.yml`. Translating a key does
+not fail the build — it drops the section into the generic branch, which renders
+it wrong, quietly.
 
 The PDF is built from `~/Documents/resume/general_template`:
 
@@ -132,8 +181,48 @@ cd ~/Documents/resume/general_template && latexmk -pdf main.tex
 cp main.pdf ~/Documents/jung0221.github.io/assets/pdf/jungeui_choi_cv.pdf
 ```
 
-An empty `end_date: ""` renders as *Present*. Publications are **not** in
-`cv.yml` on purpose — they would then need updating in two places.
+An empty `end_date: ""` renders as *Present* (*Atual* in Portuguese). Give it any
+other value and the entry sorts to the bottom, because the sorter only treats an
+empty or `present`-like end date as ongoing.
+
+Publications are **not** in `cv.yml` on purpose — they would then need updating
+in two places.
+
+---
+
+## The look: gradient, menu, dark mode
+
+**Dark mode** was already part of al-folio (`enable_darkmode: true`). The
+sun/moon button in the menu cycles system → dark → light and remembers the
+choice.
+
+**The gradient** is the 21st.dev "Ocean Ripple" preset — Foam `#EAF7FB`, Sky
+blue `#7FC6E6`, Cobalt `#2E7CC0`, Navy `#123A6B` — rendered as a band across the
+top of every page:
+
+| File | Does what |
+|---|---|
+| `assets/js/ocean-ripple.js` | draws the stripe field on a `<canvas>` |
+| `assets/css/ocean.scss` | the band, the palette, the menu, the CSS fallback |
+
+It paints once (the preset is `animated: false`) and then costs nothing. To
+change the height, edit `--ocean-hero-height` in `ocean.scss`; the home page
+overrides it via the `ocean-hero-tall` body class. To turn the drift on, add
+`data-animated="true"` to the canvas in `_layouts/default.liquid` — it stays off
+under `prefers-reduced-motion` regardless.
+
+The `background-image` on `.ocean-hero` is the preset's own CSS approximation,
+kept as the no-JavaScript fallback. It is exact wherever `wave` is zero; the
+canvas exists to add the bend.
+
+**The menu** is a port of a React/framer-motion component to plain CSS — the
+blurred pill, the hover aura, the per-item 3D flip and the active-item glow are
+all `:hover` and `.active` rules, so there is no JavaScript and no build step.
+Per-item colours come from `_data/nav_style.yml` as `r, g, b` triples, which is
+what lets one declaration feed the glow, the hover glow and the icon colour.
+
+Between 576 px and 991 px the labels drop and the icons carry the meaning —
+five labelled items plus three buttons do not fit a 930 px container.
 
 ---
 
@@ -155,26 +244,22 @@ build only permits a fixed allow-list of plugins that excludes it.
 
 You can also trigger a rebuild by hand: **Actions → Deploy site → Run workflow**.
 
-### One-time repository setup
+### Repository setup — done, but do not undo it
 
-Not yet done — the repo `jung0221/jung0221.github.io` does not exist.
+These are already configured. They are recorded because each one silently breaks
+the site if changed:
 
-1. Create it, **public**, named exactly `jung0221.github.io`, with no README,
-   `.gitignore` or licence.
-2. `git remote add origin git@github.com:jung0221/jung0221.github.io.git`
-   then `git push -u origin main`.
-3. **Settings → Actions → General → Workflow permissions** → select
-   **Read and write permissions** → Save.
-   Without this the deploy step cannot push to `gh-pages` and fails with a 403.
-4. Wait for the first run to go green. It creates the `gh-pages` branch.
-5. **Settings → Pages → Build and deployment**:
-   - Source: **Deploy from a branch**
-   - Branch: **`gh-pages`**, folder **`/ (root)`** → Save
+- **Settings → Pages → Source**: *Deploy from a branch*, branch **`gh-pages`**,
+  folder **`/ (root)`**. Pointing this at `main` makes Pages run its own Jekyll,
+  which cannot load `jekyll-scholar` or the `al_folio_*` gems and fails with
+  *"The al_folio_core theme could not be found"*.
+- **Settings → Actions → General → Workflow permissions**: *Read and write*.
+  Without it the deploy step gets a 403 pushing to `gh-pages`.
+- The repository is **public**. The account is on **GitHub Free**, where Pages
+  only works on public repositories — making it private takes the site offline.
+  (Pro, at $4/month, would allow a private repo.)
 
-   The `gh-pages` branch does not exist before step 4, so this option is not
-   selectable until then.
-
-The site appears at `https://jung0221.github.io` a minute or so later.
+Never edit the `gh-pages` branch by hand; every build overwrites it.
 
 ---
 
@@ -191,10 +276,11 @@ The site appears at `https://jung0221.github.io` a minute or so later.
 Search the repo for `TODO` to find them all:
 
 - `_data/socials.yml` — ORCID, Lattes and Google Scholar IDs are commented out
-- `_pages/about.md` — `prof_pic.jpg` is still the theme placeholder
 - `_bibliography/papers.bib` — confirm the IFAC 2026 venue city
-- `_pages/contact.md` — lab page URL
-- `_data/cv.yml` — spoken languages section
+- `_pages/contact.md` / `contact.pt.md` — lab page URL
+- `_data/cv.yml` / `cv_pt.yml` — spoken languages section
+- `_pages/research.md` / `research.pt.md` — EMBC 2025 reconstruction figures
+- The CV PDF exists in English only; `/pt/cv/` links to it and says so
 
 ---
 
@@ -210,3 +296,22 @@ diff -ru /tmp/al-folio/_config.yml _config.yml | less
 
 Most of the theme lives in the `al_folio_core` gem, so routine updates are just
 a version bump in `Gemfile` followed by `bundle update`.
+
+**Four theme files are overridden locally.** Jekyll resolves the site root
+before the gems, so these copies win — and they will *not* pick up upstream
+changes. After a `bundle update`, diff each against its gem original and
+re-apply anything worth taking:
+
+| Local file | Why it is forked |
+|---|---|
+| `_layouts/default.liquid` | per-page `lang`, hreflang alternates, gradient mount |
+| `_layouts/about.liquid` | language-aware "selected publications" heading and link |
+| `_includes/header.liquid` | the glow menu, language-filtered nav, language button |
+| `_includes/cv/render.liquid` | picks `cv.yml` vs `cv_pt.yml`, translated headings |
+
+Each one names its source gem and version in a comment at the top:
+
+```bash
+diff -u vendor/bundle/ruby/3.2.0/gems/al_folio_core-1.0.15/_includes/header.liquid \
+        _includes/header.liquid
+```
