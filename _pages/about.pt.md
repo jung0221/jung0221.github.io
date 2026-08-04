@@ -35,9 +35,7 @@ latest_posts:
 ---
 
 Sou doutorando em ingresso direto na Escola Politécnica da Universidade de São
-Paulo, no Departamento de Engenharia Mecatrônica e de Sistemas Mecânicos, sob
-orientação do
-[Prof. Dr. Marcos de Sales Guerra Tsuzuki](https://www.poli.usp.br/). Minha
+Paulo, no Departamento de Engenharia Mecatrônica e de Sistemas Mecânicos. Minha
 pesquisa é financiada por bolsa de doutorado da FAPESP (processo 2025/04329-4).
 
 Meu trabalho trata do **problema inverso tridimensional em Tomografia por

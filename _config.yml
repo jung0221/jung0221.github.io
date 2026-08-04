@@ -6,14 +6,18 @@ title: blank # the website title (if blank, full name will be used instead)
 first_name: Jungeui
 middle_name: ""
 last_name: Choi
-contact_note: >
-  The USP address is the best way to reach me about research.
+# Printed under the social icons on the about page. Left empty: the contact page
+# already says how to reach you, and the line read as filler next to the icons.
+contact_note:
 description: > # the ">" symbol means to ignore newlines until "footer_text:"
   Direct-entry PhD candidate at the Escola Politécnica, University of São Paulo, working on
   deep learning for the three-dimensional inverse problem in Electrical Impedance Tomography.
-footer_text: >
-  Powered by <a href="https://jekyllrb.com/" target="_blank">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio">al-folio</a> theme.
-  Hosted by <a href="https://pages.github.com/" target="_blank">GitHub Pages</a>.
+# Left empty on purpose. The theme's default fills this with "Powered by Jekyll
+# with al-folio theme. Hosted by GitHub Pages." — al-folio is MIT, which asks
+# that the licence text travel with the source, not that it be printed on the
+# rendered page. LICENSE stays in the repository; the attribution comment at the
+# top of each overridden theme file stays too.
+footer_text:
 keywords: electrical impedance tomography, inverse problems, deep learning, generative models, implicit neural representations, statistical shape models, medical imaging, University of São Paulo
 lang: en # the language of your site (for example: en, fr, cn, ru, etc.)
 # The eitannsolver project logo, from ~/Documents/Doutorado/repos/repo-logos.

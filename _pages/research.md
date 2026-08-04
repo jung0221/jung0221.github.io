@@ -231,9 +231,3 @@ code is [available on GitHub](https://github.com/jung0221/LUNAS).
 - Implicit neural representations
 - Statistical shape models
 - Medical image analysis and segmentation
-
-## Funding
-
-This research is supported by the São Paulo Research Foundation (FAPESP) under
-doctoral fellowship 2025/04329-4, within the project supported by FAPESP grant
-2024/06094-1, CNPq grant 433.151/2018-8 and USP NAP TIE-US.

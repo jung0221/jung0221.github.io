@@ -36,9 +36,8 @@ latest_posts:
 
 I am a direct-entry doctoral candidate at the Escola Politécnica of the University
 of São Paulo, in the Department of Mechatronics and Mechanical Systems
-Engineering, advised by
-[Prof. Marcos de Sales Guerra Tsuzuki](https://www.poli.usp.br/). My work is
-funded by a FAPESP doctoral fellowship (grant 2025/04329-4).
+Engineering. My work is funded by a FAPESP doctoral fellowship
+(grant 2025/04329-4).
 
 My research concerns the **three-dimensional inverse problem in Electrical
 Impedance Tomography** (EIT). EIT recovers the internal conductivity distribution
