@@ -352,15 +352,21 @@ html[data-theme="dark"] .nav-item {
 }
 
 .navbar-menu-list #search-toggle,
-.navbar-menu-list #light-toggle,
-.navbar-menu-list .lang-toggle {
+.navbar-menu-list #light-toggle {
   /* inline-flex + line-height 1 so the glyph is centred on the box rather than
      sitting on a text baseline, which is what threw the toggle off. */
+  /* Explicit height rather than padding. These two buttons hold different
+     content — a wrapped <span> for search, a bare <i> for the theme, one of
+     whose three variants is a composite pseudo-element glyph — so padding
+     alone gave them boxes of different heights (32px vs 29.4px) that then
+     centred on different lines. A fixed box makes the alignment independent of
+     what is inside it. */
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  height: 2rem;
   line-height: 1;
-  padding: 0.42rem 0.6rem;
+  padding: 0 0.55rem;
   border: 0;
   border-radius: 14px;
   background: transparent;
@@ -370,39 +376,90 @@ html[data-theme="dark"] .nav-item {
     background-color 0.25s ease;
 }
 
-.navbar-menu-list #search-toggle .nav-link,
-.navbar-menu-list #light-toggle i {
+.navbar-menu-list #search-toggle .nav-link {
   display: inline-flex;
   align-items: center;
   line-height: 1;
 }
 
+/* The theme toggle holds three icons — system, dark, light — and the theme
+   shows exactly one by setting `display: none` on the other two. Do NOT give
+   `#light-toggle i` a display value here: `.navbar-menu-list #light-toggle i`
+   outranks those rules and all three render at once. */
+
+/* The theme ships `#light-toggle { transform: translateY(4px) }` to line the
+   button up with the baseline of its own text-only navbar. In a pill where
+   every item is centred, that nudge is exactly the 4px by which this button
+   sat below everything else. */
+.navbar-menu-list #light-toggle {
+  transform: none;
+  width: 2.1rem;
+}
+
 .navbar-menu-list #search-toggle:hover,
-.navbar-menu-list #light-toggle:hover,
-.navbar-menu-list .lang-toggle:hover,
-.navbar-menu-list .lang-toggle:focus-visible {
+.navbar-menu-list #light-toggle:hover {
   color: var(--global-theme-color);
   background-color: rgba(46, 124, 192, 0.1);
 }
 
 html[data-theme="dark"] .navbar-menu-list #search-toggle:hover,
-html[data-theme="dark"] .navbar-menu-list #light-toggle:hover,
-html[data-theme="dark"] .navbar-menu-list .lang-toggle:hover {
+html[data-theme="dark"] .navbar-menu-list #light-toggle:hover {
   background-color: rgba(127, 198, 230, 0.14);
 }
 
-.lang-toggle {
+/* Language switch — a two-state segmented control. */
+.lang-switch {
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
-  font-size: 0.82rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-decoration: none !important;
+  gap: 1px;
+  margin-left: 0.15rem;
+  padding: 2px;
+  border-radius: 10px;
+  background-color: rgba(18, 58, 107, 0.08);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
 }
 
-.lang-toggle .lang-toggle__code {
-  font-variant-numeric: tabular-nums;
+html[data-theme="dark"] .lang-switch {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.lang-switch__item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.65rem;
+  padding: 0.24rem 0.3rem;
+  border-radius: 8px;
+  line-height: 1;
+  color: var(--global-text-color-light);
+  text-decoration: none !important;
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+a.lang-switch__item:hover,
+a.lang-switch__item:focus-visible {
+  color: var(--global-theme-color);
+  background-color: rgba(46, 124, 192, 0.12);
+}
+
+html[data-theme="dark"] a.lang-switch__item:hover,
+html[data-theme="dark"] a.lang-switch__item:focus-visible {
+  background-color: rgba(127, 198, 230, 0.16);
+}
+
+.lang-switch__item.is-current {
+  color: var(--global-theme-color);
+  background-color: var(--global-bg-color);
+  box-shadow: 0 1px 2px rgba(18, 58, 107, 0.16);
+}
+
+html[data-theme="dark"] .lang-switch__item.is-current {
+  background-color: #23272e;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 /* Hide the search shortcut hint; the pill has no room for it. */
@@ -470,7 +527,10 @@ html[data-theme="dark"] .navbar-menu-list .lang-toggle:hover {
     opacity: 1;
   }
 
-  .lang-toggle,
+  .lang-switch {
+    margin: 0.35rem 0 0.15rem 0.7rem;
+  }
+
   .navbar-menu-list #search-toggle,
   .navbar-menu-list #light-toggle {
     justify-content: flex-start;
@@ -531,6 +591,47 @@ html[data-theme="dark"] .bibsearch-form-input {
 
 html[data-theme="dark"] .bibsearch-form-input:focus {
   box-shadow: 0 0 0 3px rgba(127, 198, 230, 0.18);
+}
+
+/* -----------------------------------------------------------------------------
+   CV entries
+   -----------------------------------------------------------------------------
+   The date/location column is a 2-of-12 grid cell holding a <table>. A table is
+   sized by its widest cell and ignores the column, so a location like
+   "Remoto (Estados Unidos)" pushed straight through into the job title next to
+   it. `table-layout: fixed` makes it honour the cell width instead, and the
+   column is widened enough that a place name is not shredded one word per line.
+   -------------------------------------------------------------------------- */
+
+.cv .date-column {
+  min-width: 0;
+}
+
+.cv .date-column .table-cv {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.cv .date-column .location {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  margin-bottom: 0;
+}
+
+.cv .date-column .badge {
+  white-space: normal;
+}
+
+@media (min-width: 768px) {
+  .cv .row > .date-column {
+    flex: 0 0 22%;
+    max-width: 22%;
+  }
+
+  .cv .row > .date-column + [class*="col-md-10"] {
+    flex: 0 0 78%;
+    max-width: 78%;
+  }
 }
 
 /* -----------------------------------------------------------------------------

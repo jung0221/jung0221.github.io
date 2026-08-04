@@ -158,23 +158,38 @@
           {% endif %}
 
           {% if alt_page %}
+            {%- comment -%}
+              Both languages are shown at once, with the current one marked, so
+              the control states which language you are reading AND what the
+              other option is. A single code cannot do both: labelled with the
+              target it reads as a claim about the page, and labelled with the
+              current language it gives no sign that it is a link at all.
+
+              There are exactly two languages, so `alt_page` is by definition
+              the one that is not current.
+            {%- endcomment -%}
             <!-- Language switcher -->
             <li class="nav-item nav-item--utility">
-              <a
-                class="lang-toggle"
-                href="{{ alt_page.url | relative_url }}"
-                hreflang="{{ other_lang }}"
-                lang="{{ other_lang }}"
-                title="{{ t.switch_title }}"
-                aria-label="{{ t.switch_title }}"
-              >
-                {%- comment -%}
-                  The code shown is the CURRENT language, not the target. The
-                  tooltip and the link carry the action.
-                {%- endcomment -%}
-                <i class="fa-solid fa-language" aria-hidden="true"></i>
-                <span class="lang-toggle__code">{{ t.code }}</span>
-              </a>
+              <span class="lang-switch" role="group" aria-label="{{ t.switch_title }}">
+                {% assign langs = 'en,pt' | split: ',' %}
+                {% for l in langs %}
+                  {% if l == page_lang %}
+                    <span class="lang-switch__item is-current" aria-current="true">
+                      {{- site.data.i18n[l].code -}}
+                    </span>
+                  {% else %}
+                    <a
+                      class="lang-switch__item"
+                      href="{{ alt_page.url | relative_url }}"
+                      hreflang="{{ l }}"
+                      lang="{{ l }}"
+                      title="{{ t.switch_title }}"
+                    >
+                      {{- site.data.i18n[l].code -}}
+                    </a>
+                  {% endif %}
+                {% endfor %}
+              </span>
             </li>
           {% endif %}
 
