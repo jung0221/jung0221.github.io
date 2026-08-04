@@ -1,0 +1,34 @@
+# Icon and accent colour for each navigation entry, keyed by the page's `ref:`.
+#
+# `tint` / `tint_dark` are bare `r, g, b` triples rather than hex, because the
+# stylesheet composes them into several rgba() values at different alphas — the
+# item's radial glow, its hover glow, and the icon colour all come from this one
+# declaration. Hex would need a separate entry per alpha.
+#
+# A ref missing from this file still renders; it just falls back to the default
+# cobalt tint and shows no icon.
+
+about:
+  icon: fa-solid fa-house
+  tint: "46, 124, 192" # Cobalt
+  tint_dark: "127, 198, 230" # Sky blue
+
+research:
+  icon: fa-solid fa-wave-square
+  tint: "14, 154, 167"
+  tint_dark: "64, 208, 216"
+
+publications:
+  icon: fa-solid fa-book-open
+  tint: "79, 99, 198"
+  tint_dark: "150, 166, 245"
+
+cv:
+  icon: fa-solid fa-file-lines
+  tint: "122, 85, 199"
+  tint_dark: "179, 152, 245"
+
+contact:
+  icon: fa-solid fa-envelope
+  tint: "27, 143, 209"
+  tint_dark: "116, 205, 240"

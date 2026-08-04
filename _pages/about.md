@@ -1,5 +1,9 @@
 ---
 layout: about
+lang: en
+ref: about
+nav: true
+nav_order: 1
 title: about
 permalink: /
 subtitle: >

@@ -2,6 +2,8 @@
 layout: cv
 permalink: /cv/
 title: CV
+lang: en
+ref: cv
 nav: true
 nav_order: 4
 cv_pdf: /assets/pdf/jungeui_choi_cv.pdf # rendered from ~/Documents/resume/general_template

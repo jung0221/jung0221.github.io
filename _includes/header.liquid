@@ -1,0 +1,199 @@
+{% comment %}
+  Local override of al_folio_core-1.0.15/_includes/header.liquid.
+
+  Changes from upstream:
+    1. The nav is a "glow menu" — the <ul> is a blurred pill, each item has an
+       icon, a per-item radial glow and a 3D flip on hover. Markup only; every
+       state is a CSS hover or an `active` class (see assets/css/ocean.scss).
+    2. Navigation is filtered by language. Items come from pages whose `lang`
+       matches the current page, and the active item is matched on `ref` rather
+       than on URL — `page.url contains p.url` is true for every page when
+       p.url is "/", so upstream's test cannot work once home is not the only
+       root-ish URL.
+    3. The about page is no longer special-cased into the first slot; it is an
+       ordinary nav entry with `nav_order: 1`, which is what makes the
+       Portuguese home page (/pt/) reachable from the menu at all.
+    4. A language switcher, which links to the page carrying the same `ref` in
+       the other language. It is omitted when no such page exists, so a
+       half-translated site degrades to "no button" rather than to a 404.
+
+  Dropdown support from upstream is retained but unused; delete it if this site
+  never grows a dropdown.
+{% endcomment %}
+
+{% assign page_lang = page.lang | default: site.lang | default: 'en' %}
+{% assign t = site.data.i18n[page_lang] %}
+
+{%- comment -%} Find the same page in the other language. {%- endcomment -%}
+{% assign other_lang = 'pt' %}
+{% if page_lang == 'pt' %}
+  {% assign other_lang = 'en' %}
+{% endif %}
+{% assign alt_page = nil %}
+{% if page.ref %}
+  {% for p in site.pages %}
+    {% if p.ref == page.ref and p.lang == other_lang %}
+      {% assign alt_page = p %}
+      {% break %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+{%- comment -%}
+  The brand links to the home page *of the current language*, not to "/", so a
+  Portuguese reader clicking the name stays in Portuguese.
+{%- endcomment -%}
+{% assign home_url = '/' %}
+{% for p in site.pages %}
+  {% if p.ref == 'about' and p.lang == page_lang %}
+    {% assign home_url = p.url %}
+    {% break %}
+  {% endif %}
+{% endfor %}
+
+<header>
+  <!-- Nav Bar -->
+  <nav
+    id="navbar"
+    {%- comment -%}
+      `navbar-expand-sm` is the only expand variant the theme's Tailwind build
+      emits — `-lg` silently produces a bar that never collapses.
+    {%- endcomment -%}
+    class="navbar navbar-light navbar-expand-sm {% if site.navbar_fixed %}fixed-top{% else %}sticky-top{% endif %}"
+    role="navigation"
+  >
+    <div class="container">
+      {% if page.ref != 'about' %}
+        <a class="navbar-brand title font-weight-lighter" href="{{ home_url | relative_url }}">
+          {% if site.title == 'blank' %}
+            {% if site.first_name %}
+              <span class="font-weight-bold">
+                {{- site.first_name -}}
+              </span>
+            {% endif %}
+            {% if site.middle_name %}
+              {{- site.middle_name -}}
+            {% endif %}
+            {% if site.last_name %}
+              {{- site.last_name -}}
+            {% endif %}
+          {% else %}
+            {{- site.title -}}
+          {% endif %}
+        </a>
+      {% elsif site.enable_navbar_social %}
+        <!-- Social Icons -->
+        <div class="navbar-brand social">{% social_links %}</div>
+      {% endif %}
+      <!-- Navbar Toggle -->
+      <button
+        class="navbar-toggler collapsed navbar-toggler-main"
+        type="button"
+        data-nav-toggle="navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse navbar-collapse-main" id="navbarNav">
+        <ul class="navbar-nav navbar-menu-list flex-nowrap">
+          <li class="glow-menu-aura" aria-hidden="true"></li>
+
+          {% assign sorted_pages = site.pages | sort: 'nav_order' %}
+          {% for p in sorted_pages %}
+            {% if p.nav and p.autogen == null and p.lang == page_lang %}
+              {% assign style = site.data.nav_style[p.ref] %}
+              {% assign is_active = false %}
+              {% if p.ref and p.ref == page.ref %}
+                {% assign is_active = true %}
+              {% endif %}
+              <li
+                class="nav-item {% if is_active %}active{% endif %}"
+                {% if style %}style="--gm-tint: {{ style.tint }}; --gm-tint-dark: {{ style.tint_dark }};"{% endif %}
+              >
+                {%- if p.permalink contains '://' -%}
+                  {%- assign url = p.permalink -%}
+                {%- else -%}
+                  {%- assign url = p.url -%}
+                {%- endif %}
+                <a class="nav-link" href="{{ url | relative_url }}">
+                  <span class="glow-menu-stage">
+                    <span class="glow-menu-glow" aria-hidden="true"></span>
+                    <span class="glow-menu-face glow-menu-face--front">
+                      {% if style.icon %}
+                        <span class="glow-menu-icon"><i class="{{ style.icon }}"></i></span>
+                      {% endif %}
+                      <span class="glow-menu-label">{{ p.title }}</span>
+                    </span>
+                    {%- comment -%}
+                      The back face is decorative: it is the same words rotating
+                      into place, so announcing it would read the label twice.
+                    {%- endcomment -%}
+                    <span class="glow-menu-face glow-menu-face--back" aria-hidden="true">
+                      {% if style.icon %}
+                        <span class="glow-menu-icon"><i class="{{ style.icon }}"></i></span>
+                      {% endif %}
+                      <span class="glow-menu-label">{{ p.title }}</span>
+                    </span>
+                  </span>
+                  {% if is_active %}
+                    <span class="sr-only">(current)</span>
+                  {% endif %}
+                </a>
+              </li>
+            {% endif %}
+          {% endfor %}
+
+          {% if site.search_enabled %}
+            <!-- Search -->
+            <li class="nav-item nav-item--utility">
+              <button id="search-toggle" type="button" title="{{ t.search_title }}" aria-label="{{ t.search_title }}">
+                <span class="nav-link">ctrl k <i class="fa-solid fa-magnifying-glass"></i></span>
+              </button>
+            </li>
+          {% endif %}
+
+          {% if alt_page %}
+            <!-- Language switcher -->
+            <li class="nav-item nav-item--utility">
+              <a
+                class="lang-toggle"
+                href="{{ alt_page.url | relative_url }}"
+                hreflang="{{ other_lang }}"
+                lang="{{ other_lang }}"
+                title="{{ t.switch_title }}"
+                aria-label="{{ t.switch_title }}"
+              >
+                <i class="fa-solid fa-language" aria-hidden="true"></i>
+                <span class="lang-toggle__code">{{ t.switch_code }}</span>
+              </a>
+            </li>
+          {% endif %}
+
+          {% if site.enable_darkmode %}
+            <!-- Toggle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" type="button" title="{{ t.theme_title }}" aria-label="{{ t.theme_title }}">
+                <i class="fa-half-sun-moon" id="light-toggle-system"></i>
+                <i class="fa-solid fa-moon" id="light-toggle-dark"></i>
+                <i class="fa-solid fa-sun" id="light-toggle-light"></i>
+              </button>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>
+  {% if site.enable_progressbar %}
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  {% endif %}
+</header>

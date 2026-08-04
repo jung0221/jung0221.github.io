@@ -3,6 +3,8 @@ layout: page
 permalink: /publications/
 title: publications
 description: In reverse chronological order. Rendered from a single BibTeX file.
+lang: en
+ref: publications
 nav: true
 nav_order: 3
 ---

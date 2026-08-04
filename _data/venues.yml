@@ -1,17 +1,23 @@
 # Colour and link for the venue tag shown beside each publication.
 # The key must match the `abbr` field of the entry in _bibliography/papers.bib.
+#
+# The badges carry white text, so every colour here is chosen to clear 4.5:1
+# against white — the tags are small and bold, which is exactly where a
+# mid-tone brand colour stops being readable. They also share the hues used by
+# the navigation menu (see _data/nav_style.yml), so the venue tags read as part
+# of the site rather than as four unrelated brand colours.
 
 "BSPC":
   url: https://www.sciencedirect.com/journal/biomedical-signal-processing-and-control
-  color: "#00369f"
+  color: "#12467f" # navy
 
 "EMBC":
   url: https://www.embs.org/embc/
-  color: "#0f7b6c"
+  color: "#0b7d88" # teal
 
 "IFAC":
   url: https://www.ifac-control.org/
-  color: "#8a3ffc"
+  color: "#4f63c6" # indigo
 
 "ICGG":
-  color: "#b35c00"
+  color: "#6a49b4" # violet

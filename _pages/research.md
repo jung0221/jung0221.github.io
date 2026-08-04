@@ -3,6 +3,8 @@ layout: page
 permalink: /research/
 title: research
 description: Deep learning for the three-dimensional inverse problem in Electrical Impedance Tomography.
+lang: en
+ref: research
 nav: true
 nav_order: 2
 toc:

@@ -1,0 +1,127 @@
+<!doctype html>
+{%- comment -%}
+  Local override of al_folio_core-1.0.15/_layouts/default.liquid.
+
+  Changes from upstream:
+    1. `<html lang>` comes from the page, not the site, so the Portuguese
+       mirror is actually announced as Portuguese to screen readers and search
+       engines.
+    2. `rel="alternate" hreflang` pairs each page with its translation, plus an
+       `x-default` pointing at the English one.
+    3. The Ocean Ripple hero band is mounted as the first element in <body>.
+    4. The Ocean Ripple stylesheet is linked after `head.liquid`, which is what
+       lets it override the theme's custom properties on source order.
+
+  Upstream's al_rtl branch is kept: the plugin is not installed here, but the
+  guard costs nothing and removing it would make a later `bundle add al_rtl`
+  fail in a confusing place.
+{%- endcomment -%}
+{%- capture html_attributes -%}
+  {%- if site.plugins contains 'al_rtl' -%}
+    {%- include plugins/al_rtl_html_attrs.liquid -%}
+  {%- else -%}
+    lang="{{ page.lang | default: site.lang }}"
+  {%- endif -%}
+{%- endcapture -%}
+<html {{ html_attributes }}>
+  <!-- Head -->
+  <head>
+    {% if page.redirect %}
+      {% if page.redirect == true %}
+        {% assign redirect = site.baseurl | append: '/' %}
+      {% elsif page.redirect contains '://' %}
+        {% assign redirect = page.redirect %}
+      {% else %}
+        {% assign redirect = page.redirect | relative_url %}
+      {% endif %}
+      <meta http-equiv="refresh" content="3; url={{ redirect }}">
+    {% endif %}
+    {% include head.liquid %}
+    {%- comment -%}
+      `bust_css_cache`, not `bust_file_cache`: this file is compiled from
+      ocean.scss, so there is no ocean.css on disk for the file-hash filter to
+      stat, and it raises rather than degrading.
+    {%- endcomment -%}
+    <link rel="stylesheet" href="{{ '/assets/css/ocean.css' | relative_url | bust_css_cache }}">
+
+    {%- comment -%}
+      Translation alternates. Emitted only when a counterpart actually exists,
+      because an hreflang pointing at a missing page is worse than none.
+    {%- endcomment -%}
+    {% if page.ref %}
+      {% for p in site.pages %}
+        {% if p.ref == page.ref and p.lang %}
+          <link rel="alternate" hreflang="{{ p.lang }}" href="{{ p.url | absolute_url }}">
+          {% if p.lang == 'en' %}
+            <link rel="alternate" hreflang="x-default" href="{{ p.url | absolute_url }}">
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  </head>
+
+  <!-- Body -->
+  <body
+    class="{% if site.navbar_fixed %}fixed-top-nav{% endif %} {% unless site.footer_fixed %}sticky-bottom-footer{% endunless %} {% if page.ref == 'about' %}ocean-hero-tall{% endif %}"
+  >
+    {%- comment -%}
+      Ocean Ripple. Static by preset (`animated: false`), so this paints once
+      and then costs nothing; the canvas falls back to the flat CSS ramp below
+      it if JavaScript is off.
+    {%- endcomment -%}
+    <div class="ocean-hero" aria-hidden="true">
+      <canvas data-ocean-ripple></canvas>
+    </div>
+
+    <!-- Header -->
+    {% include header.liquid %}
+
+    <!-- Content -->
+    <div class="container mt-5" role="main">
+      {% if page.toc and page.toc.sidebar %}
+        {% assign toc_collapse = page.toc.collapse | default: 'expanded' %}
+        {% assign toc_collapse_depth = page.toc.collapse_depth | default: '' %}
+        {% if page.toc.sidebar == 'right' %}
+          <div class="row">
+            <!-- main content area -->
+            <div class="col-sm-9">{{ content }}</div>
+            <!-- sidebar, which will move to the top on a small screen -->
+            <div class="col-sm-3">
+              <nav
+                id="toc-sidebar"
+                class="sticky-top toc toc-sidebar"
+                aria-label="Table of contents"
+                data-toc-collapse="{{ toc_collapse }}"
+                data-toc-collapse-depth="{{ toc_collapse_depth }}"
+              ></nav>
+            </div>
+          </div>
+        {% else %}
+          <div class="row">
+            <!-- sidebar, which will move to the top on a small screen -->
+            <div class="col-sm-3">
+              <nav
+                id="toc-sidebar"
+                class="sticky-top toc toc-sidebar"
+                aria-label="Table of contents"
+                data-toc-collapse="{{ toc_collapse }}"
+                data-toc-collapse-depth="{{ toc_collapse_depth }}"
+              ></nav>
+            </div>
+            <!-- main content area -->
+            <div class="col-sm-9">{{ content }}</div>
+          </div>
+        {% endif %}
+      {% else %}
+        {{ content }}
+      {% endif %}
+    </div>
+
+    <!-- Footer -->
+    {% include footer.liquid %}
+
+    <!-- JavaScripts -->
+    {% include scripts.liquid %}
+    <script defer src="{{ '/assets/js/ocean-ripple.js' | relative_url | bust_file_cache }}"></script>
+  </body>
+</html>

@@ -1,0 +1,62 @@
+# User-visible interface strings, keyed by language.
+#
+# Page titles and descriptions are NOT here — those live in each page's own
+# front matter, so a translated page owns its own heading. This file is only
+# for strings that layouts and includes emit: buttons, tooltips, and the CV
+# section headings that come from a data file rather than from prose.
+#
+# Adding a language means adding a block here AND a mirrored set of pages
+# carrying the matching `lang:`. See CLAUDE.md.
+
+en:
+  name: English
+  # Shown on the language button: the language you switch TO.
+  switch_to: Português
+  switch_code: PT
+  switch_title: "Ver este site em português"
+  search_title: Search
+  theme_title: Change theme
+  skip_to_content: Skip to content
+  selected_publications: selected publications
+  cv:
+    contact_information: Contact Information
+    professional_summary: Professional Summary
+    present: Present
+    sections:
+      Experience: Experience
+      Education: Education
+      Projects: Projects
+      Awards: Awards
+      Skills: Skills
+      Interests: Interests
+      Languages: Languages
+      Certificates: Certificates
+      References: References
+
+pt:
+  name: Português
+  switch_to: English
+  switch_code: EN
+  switch_title: "View this site in English"
+  search_title: Buscar
+  theme_title: Alternar tema
+  skip_to_content: Pular para o conteúdo
+  selected_publications: publicações selecionadas
+  cv:
+    contact_information: Contato
+    professional_summary: Resumo profissional
+    present: Atual
+    # The KEYS stay in English on purpose: they are the section names in
+    # _data/cv*.yml and the renderer dispatches on them. Only the values are
+    # translated. Renaming a key silently drops the section into the generic
+    # branch, which renders it wrong rather than failing loudly.
+    sections:
+      Experience: Experiência
+      Education: Formação
+      Projects: Projetos
+      Awards: Prêmios
+      Skills: Competências
+      Interests: Interesses
+      Languages: Idiomas
+      Certificates: Certificados
+      References: Referências

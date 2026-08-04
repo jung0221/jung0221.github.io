@@ -3,6 +3,8 @@ layout: page
 permalink: /contact/
 title: contact
 description: How to reach me.
+lang: en
+ref: contact
 nav: true
 nav_order: 5
 ---
