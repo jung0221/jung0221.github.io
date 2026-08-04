@@ -217,6 +217,7 @@ kramdown:
 include: ["_pages"]
 exclude:
   - al-folio-upgrade-report.md
+  - CLAUDE.md
   - Dockerfile
   - docker-compose.yml
   - Gemfile
