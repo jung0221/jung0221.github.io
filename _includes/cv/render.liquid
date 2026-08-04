@@ -1,0 +1,201 @@
+{% comment %}
+  Local override of al_folio_cv-1.0.2/templates/cv/render.liquid.
+
+  Two changes, both about language:
+
+    1. The CV data file is chosen by the page's language — _data/cv.yml for
+       English, _data/cv_pt.yml for Portuguese — where upstream hardwires
+       `site.data.cv.cv`.
+    2. Section headings come from _data/i18n.yml. Note that the *keys* in the
+       CV YAML stay English (`Education`, `Experience`, ...): the dispatch below
+       matches on them to pick a per-section template, and a translated key
+       would silently fall through to the generic branch and render wrong.
+
+  Upstream's JSONResume branch is dropped. Both CV pages set
+  `cv_format: rendercv`, so it was ~190 lines of dead code, and keeping dead
+  code in a fork makes the next upgrade diff harder to read, not easier.
+
+  On the "Present" replace filter
+  ------------------------------
+  The date badge is built inside cv/experience.liquid, cv/education.liquid and
+  cv/projects.liquid as `{{ end_date | default: 'Present' }}` — three separate
+  gem templates, none of which take a label parameter. Forking all three to
+  translate one word would be ~300 lines of theme code to maintain forever.
+  Capturing their output and substituting the rendered string is a fraction of
+  that, and it fails visibly (the word stays English) rather than silently.
+
+  It matches ' - Present' rather than 'Present' so it cannot corrupt a job
+  title or a highlight that happens to contain the word.
+{% endcomment %}
+
+{% assign page_lang = page.lang | default: site.lang | default: 'en' %}
+{% assign t = site.data.i18n[page_lang] %}
+
+{% if page_lang == 'pt' %}
+  {% assign cv = site.data.cv_pt.cv %}
+{% else %}
+  {% assign cv = site.data.cv.cv %}
+{% endif %}
+
+{% assign present_from = ' - Present' %}
+{% capture present_to %}{{ ' - ' }}{{ t.cv.present | default: 'Present' }}{% endcapture %}
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">
+      {{ page.title }}
+      {% if page.cv_pdf %}
+        <a
+          {% if page.cv_pdf contains '://' %}
+            href="{{ page.cv_pdf }}"
+          {% else %}
+            href="{{ page.cv_pdf | relative_url }}"
+          {% endif %}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="float-right"
+        >
+          <i class="fa-solid fa-file-pdf"></i>
+        </a>
+      {% endif %}
+    </h1>
+    {% if page.description %}
+      <p class="post-description">{{ page.description }}</p>
+    {% endif %}
+  </header>
+
+  <article>
+    <div class="cv">
+      {% if cv %}
+        <!-- Header/Contact Information -->
+        {% if cv.name or cv.label or cv.location or cv.email or cv.phone or cv.website %}
+          <div class="card mt-3 p-3">
+            <h3 class="card-title font-weight-medium">{{ t.cv.contact_information }}</h3>
+            <table class="table table-cv table-sm table-borderless">
+              {% if cv.name %}
+                <tr>
+                  <td class="p-1 pr-2 font-weight-bold"><b>{{ cv.name }}</b></td>
+                  <td class="p-1 pl-2 font-weight-light">{{ cv.label }}</td>
+                </tr>
+              {% endif %}
+              {% if cv.email %}
+                <tr>
+                  <td class="p-1 pr-2 font-weight-bold"><b>Email</b></td>
+                  <td class="p-1 pl-2 font-weight-light">{{ cv.email }}</td>
+                </tr>
+              {% endif %}
+              {% if cv.location %}
+                <tr>
+                  <td class="p-1 pr-2 font-weight-bold"><b><i class="fa-solid fa-location-dot"></i></b></td>
+                  <td class="p-1 pl-2 font-weight-light">{{ cv.location }}</td>
+                </tr>
+              {% endif %}
+              {% if cv.website %}
+                <tr>
+                  <td class="p-1 pr-2 font-weight-bold"><b><i class="fa-solid fa-globe"></i></b></td>
+                  <td class="p-1 pl-2 font-weight-light">
+                    <a href="{{ cv.website }}" target="_blank" rel="noopener noreferrer">{{ cv.website }}</a>
+                  </td>
+                </tr>
+              {% endif %}
+            </table>
+          </div>
+        {% endif %}
+
+        <!-- Summary -->
+        {% if cv.summary %}
+          <div class="card mt-3 p-3">
+            <h3 class="card-title font-weight-medium">{{ t.cv.professional_summary }}</h3>
+            <p>{{ cv.summary | markdownify | remove: '<p>' | remove: '</p>' }}</p>
+          </div>
+        {% endif %}
+
+        {% comment %} Experience and Volunteer render as one merged, date-sorted section. {% endcomment %}
+        {% assign empty_array = '' | split: ',' %}
+        {% assign exp = cv.sections.Experience | default: empty_array %}
+        {% assign vol = cv.sections.Volunteer | default: empty_array %}
+        {% assign combined_experience = exp | concat: vol | al_cv_sort_by_date %}
+        {% if combined_experience.size > 0 %}
+          <a class="anchor" id="experience"></a>
+          <div class="card mt-3 p-3">
+            <h3 class="card-title font-weight-medium">{{ t.cv.sections.Experience }}</h3>
+            <div>
+              {% assign entries = combined_experience %}
+              {% capture rendered %}{% include cv/experience.liquid %}{% endcapture %}
+              {{ rendered | replace: present_from, present_to }}
+            </div>
+          </div>
+        {% endif %}
+
+        {% for section_pair in cv.sections %}
+          {% assign section_title = section_pair[0] %}
+          {% assign section_entries = section_pair[1] %}
+
+          {% if section_title == 'Experience' or section_title == 'Volunteer' %}
+            {% continue %}
+          {% endif %}
+
+          {%- comment -%}
+            Falls back to the untranslated key when i18n has no entry, so a new
+            section shows up with an English heading instead of a blank one.
+          {%- endcomment -%}
+          {% assign heading = t.cv.sections[section_title] | default: section_title %}
+
+          <a class="anchor" id="{{ section_title | slugify }}"></a>
+          <div class="card mt-3 p-3">
+            <h3 class="card-title font-weight-medium">{{ heading }}</h3>
+            <div>
+              {% capture rendered %}
+                {% if section_title == 'Education' %}
+                  {% assign entries = section_entries | al_cv_sort_by_date %}
+                  {% include cv/education.liquid %}
+                {% elsif section_title == 'Awards' or section_title == 'Honors and Awards' %}
+                  {% assign entries = section_entries %}
+                  {% include cv/awards.liquid %}
+                {% elsif section_title == 'Publications' %}
+                  {% assign entries = section_entries %}
+                  {% include cv/publications.liquid %}
+                {% elsif section_title == 'Skills' %}
+                  {% assign entries = section_entries %}
+                  {% include cv/skills.liquid %}
+                {% elsif section_title == 'Languages' %}
+                  {% assign entries = section_entries %}
+                  {% include cv/languages.liquid %}
+                {% elsif section_title == 'Interests' or section_title == 'Academic Interests' %}
+                  {% assign entries = section_entries %}
+                  {% include cv/interests.liquid %}
+                {% elsif section_title == 'Certificates' %}
+                  {% assign entries = section_entries %}
+                  {% include cv/certificates.liquid %}
+                {% elsif section_title == 'Projects' or section_title == 'Open Source Projects' %}
+                  {% assign entries = section_entries %}
+                  {% include cv/projects.liquid %}
+                {% elsif section_title == 'References' %}
+                  {% assign entries = section_entries %}
+                  {% include cv/references.liquid %}
+                {% else %}
+                  <!-- Generic section -->
+                  {% for entry in section_entries %}
+                    {% if entry.bullet %}
+                      <ul class="card-text font-weight-light list-group list-group-flush">
+                        <li class="list-group-item">{{ entry.bullet | markdownify | remove: '<p>' | remove: '</p>' }}</li>
+                      </ul>
+                    {% elsif entry.label %}
+                      <div class="card-text font-weight-light">
+                        <strong>{{ entry.label }}:</strong> {{ entry.details }}
+                      </div>
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+              {% endcapture %}
+              {{ rendered | replace: present_from, present_to }}
+            </div>
+          </div>
+        {% endfor %}
+
+      {% else %}
+        <p>No CV data found for language "{{ page_lang }}".</p>
+      {% endif %}
+    </div>
+  </article>
+</div>

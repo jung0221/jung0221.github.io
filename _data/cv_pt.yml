@@ -1,0 +1,146 @@
+# Versão em português de _data/cv.yml, renderizada em /pt/cv/.
+#
+# As CHAVES das seções (Education, Experience, Projects, Awards, Skills,
+# Interests) permanecem em inglês de propósito: o renderizador despacha por elas
+# para escolher o template de cada seção. Os títulos exibidos são traduzidos em
+# _data/i18n.yml. Renomear uma chave aqui não quebra o build — apenas joga a
+# seção no ramo genérico, que a renderiza errado silenciosamente.
+#
+# Ao editar este arquivo, edite _data/cv.yml também. Uma das duas versões
+# desatualizada é pior do que nenhuma tradução.
+#
+# NOTA: as publicações não estão aqui de propósito. Elas vivem em
+# _bibliography/papers.bib e são renderizadas na página de publicações.
+#
+# Um end_date vazio é renderizado como "Present".
+cv:
+  name: Jungeui Choi
+  label: Doutorando, Universidade de São Paulo
+  email: jungchoi@usp.br
+  location: São Paulo, Brasil
+  image: ""
+  summary: >
+    Pesquisador de doutorado em aprendizado profundo para problemas inversos em
+    imagem médica, com trabalhos revisados por pares em reconstrução por
+    Tomografia por Impedância Elétrica e segmentação 3D de tomografia
+    computadorizada. Também atua como desenvolvedor de software, construindo
+    sistemas de agentes de IA e de recuperação de informação.
+
+  social_networks:
+    - network: GitHub
+      username: jung0221
+    - network: LinkedIn
+      username: jungeuichoi
+
+  sections:
+    Education:
+      - institution: Escola Politécnica, Universidade de São Paulo
+        location: São Paulo, Brasil
+        url: https://www.poli.usp.br/
+        area: Engenharia Mecânica (Mecatrônica e Sistemas Mecânicos)
+        studyType: Doutorado direto
+        start_date: 2025-01
+        end_date: ""
+        highlights:
+          - "Tese: Aprendizado Profundo para Reconstrução 3D do Problema Inverso em Tomografia por Impedância Elétrica."
+          - "Orientador: Prof. Dr. Marcos de Sales Guerra Tsuzuki."
+          - "Bolsa de doutorado FAPESP, processo 2025/04329-4."
+
+      - institution: Escola Politécnica, Universidade de São Paulo
+        location: São Paulo, Brasil
+        url: https://www.poli.usp.br/
+        area: Engenharia Naval e Oceânica
+        studyType: Bacharelado
+        start_date: 2020-01
+        end_date: 2024-12
+
+    Experience:
+      - company: Scopic Software
+        position: Engenheiro de IA
+        location: Remoto (Estados Unidos)
+        start_date: 2025-07
+        end_date: ""
+        highlights:
+          - Projetei e construí uma plataforma multi-tenant de agentes de IA, com fluxos de agentes em LangGraph, geração aumentada por recuperação sobre Qdrant e streaming SSE em tempo real.
+          - Desenvolvi um backend em FastAPI com multi-tenancy por isolamento de schema no PostgreSQL, filas de tarefas com Celery e cache em Redis.
+          - Construí um pipeline automatizado de segmentação de imagens médicas 3D (tomografia → segmentação óssea → modelos de superfície 3D) usando nnU-Net, com DVC e MLflow para MLOps reprodutível.
+
+      - company: Dtlabs
+        position: Engenheiro de Software
+        location: Bauru, Brasil
+        start_date: 2025-01
+        end_date: 2025-06
+        highlights:
+          - Desenvolvi algoritmos de odometria visual, SLAM e visão computacional baseada em aprendizado de máquina para processamento de imagens aéreas.
+          - Implementei reconstrução 3D de terreno, mosaicagem de imagens e otimização de georreferenciamento para mapeamento aéreo.
+
+      - company: Tanque de Provas Numérico (TPN), Universidade de São Paulo
+        position: Engenheiro de CFD
+        location: São Paulo, Brasil
+        start_date: 2024-02
+        end_date: 2024-12
+        highlights:
+          - Realizei simulações de fluidodinâmica computacional da hidrodinâmica de navios com OpenFOAM e Star-CCM+.
+
+    Projects:
+      - name: Aprendizado Profundo para o Problema Inverso 3D em TIE (pesquisa de doutorado)
+        summary: Departamento de Engenharia Mecatrônica e de Sistemas Mecânicos, Universidade de São Paulo.
+        start_date: 2025-01
+        end_date: ""
+        highlights:
+          - Desenvolvimento de métodos de reconstrução 3D para Tomografia por Impedância Elétrica usando representações neurais implícitas, modelos de difusão, fluxos normalizadores, KANs e transformers.
+          - Construção de todo o pipeline de pesquisa - segmentação de tomografias, geração de malhas 3D por elementos finitos, simulação do problema direto e solucionador inverso neural.
+
+      - name: Segmentação Automática de Pulmões via ROIFT
+        summary: Departamento de Engenharia Mecatrônica e de Sistemas Mecânicos, Universidade de São Paulo.
+        start_date: 2021-03
+        end_date: 2022-03
+        highlights:
+          - Desenvolvimento de geração automática de sementes e segmentação 3D de tomografias de tórax usando a Relaxed Oriented Image Foresting Transform.
+
+      - name: Robô de Negociação de Ações com IA
+        summary: Huawei Cloud Hackathon.
+        start_date: 2023-09
+        end_date: 2023-11
+        highlights:
+          - Construção de um pipeline de PLN para análise de sentimento de notícias em tempo real, acionando negociação automatizada.
+
+    Awards:
+      - title: Vencedor, LAC ICT Talent
+        date: 2023
+        awarder: Huawei (México)
+        summary: Prêmio pelo robô de negociação de ações com IA desenvolvido durante o Huawei Cloud Hackathon.
+
+    Skills:
+      - name: Linguagens
+        icon: fa-solid fa-code
+        keywords: "Python, C++"
+
+      - name: IA e Aprendizado de Máquina
+        icon: fa-solid fa-brain
+        keywords: "PyTorch, JAX, LangGraph, RAG (Qdrant), nnU-Net, MLflow, DVC"
+
+      - name: Backend e Infraestrutura
+        icon: fa-solid fa-server
+        keywords: "FastAPI, PostgreSQL, Redis, Celery, Docker, AWS"
+
+      - name: Computação Científica e Simulação
+        icon: fa-solid fa-cube
+        keywords: "Métodos de elementos finitos, OpenFOAM, Star-CCM+, Gmsh"
+
+      - name: Web
+        icon: fa-solid fa-globe
+        keywords: "Next.js, React"
+
+    Interests:
+      - name: Interesses de pesquisa
+        icon: fa-solid fa-flask
+        keywords: "Problemas inversos, modelos generativos (difusão, fluxos normalizadores, flow matching), representações neurais implícitas, modelos estatísticos de forma, imagem médica"
+# TODO: não há seção de idiomas falados — seu currículo não os lista e eu não quis
+# adivinhar. Se quiser, acrescente aqui e em _data/cv.yml:
+#
+#     Languages:
+#       - name: Português
+#         summary: "Nativo"
+#       - name: Inglês
+#         summary: "Fluente"
