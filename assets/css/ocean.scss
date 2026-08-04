@@ -158,6 +158,10 @@ html[data-theme="dark"] {
 
 .navbar-menu-list {
   position: relative;
+  /* The utility buttons and the labelled items are different heights; without
+     this the flex default stretches them and their glyphs settle at different
+     baselines — the theme toggle visibly sat lower than everything else. */
+  align-items: center;
   gap: 0.25rem;
   /* Extra padding on the right: the theme toggle's composite sun/moon glyph
      overflows its own box by a couple of pixels, and the pill clips. */
@@ -350,15 +354,27 @@ html[data-theme="dark"] .nav-item {
 .navbar-menu-list #search-toggle,
 .navbar-menu-list #light-toggle,
 .navbar-menu-list .lang-toggle {
+  /* inline-flex + line-height 1 so the glyph is centred on the box rather than
+     sitting on a text baseline, which is what threw the toggle off. */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
   padding: 0.42rem 0.6rem;
   border: 0;
   border-radius: 14px;
   background: transparent;
   color: var(--global-text-color-light);
-  line-height: 1.2;
   transition:
     color 0.25s ease,
     background-color 0.25s ease;
+}
+
+.navbar-menu-list #search-toggle .nav-link,
+.navbar-menu-list #light-toggle i {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
 }
 
 .navbar-menu-list #search-toggle:hover,
@@ -478,6 +494,43 @@ html[data-theme="dark"] .navbar-menu-list .lang-toggle:hover {
   .glow-menu-face--back {
     display: none;
   }
+}
+
+/* -----------------------------------------------------------------------------
+   Publication filter
+   -----------------------------------------------------------------------------
+   The theme styles this input from --global-newsletter-*, which in dark mode is
+   deliberately inverted — a light panel on a dark page, which suits a
+   newsletter call-to-action and makes a filter field look like a lit slab.
+   These give it its own colours instead.
+   -------------------------------------------------------------------------- */
+
+.bibsearch-form-input {
+  color: var(--global-text-color);
+  background: var(--global-bg-color);
+  border: 1px solid var(--global-divider-color);
+  box-shadow: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.bibsearch-form-input::placeholder {
+  color: var(--global-text-color-light);
+  opacity: 1; /* Firefox dims placeholders by default, on top of the colour */
+}
+
+.bibsearch-form-input:focus {
+  border-color: var(--global-theme-color);
+  box-shadow: 0 0 0 3px rgba(46, 124, 192, 0.16);
+}
+
+html[data-theme="dark"] .bibsearch-form-input {
+  background: #23272e;
+}
+
+html[data-theme="dark"] .bibsearch-form-input:focus {
+  box-shadow: 0 0 0 3px rgba(127, 198, 230, 0.18);
 }
 
 /* -----------------------------------------------------------------------------
