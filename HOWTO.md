@@ -205,19 +205,37 @@ top of every page:
 | `assets/js/ocean-ripple.js` | draws the stripe field on a `<canvas>` |
 | `assets/css/ocean.scss` | the band, the palette, the menu, the CSS fallback |
 
-It paints once (the preset is `animated: false`) and then costs nothing. To
-change the height, edit `--ocean-hero-height` in `ocean.scss`; the home page
-overrides it via the `ocean-hero-tall` body class. To turn the drift on, add
-`data-animated="true"` to the canvas in `_layouts/default.liquid` — it stays off
-under `prefers-reduced-motion` regardless.
+It paints once (the preset is `animated: false`) and then costs nothing.
+Three knobs in `ocean.scss`, all custom properties:
+
+| Property | Effect |
+|---|---|
+| `--ocean-hero-height` | band height (the home page overrides it via `ocean-hero-tall`) |
+| `--ocean-hero-alpha` | how strong the wash is; lower in dark mode |
+| `--ocean-hero-mask` | where it starts fading out |
+
+The band is a **wash**, not a picture. At full strength the Navy end is a dark
+slab against the right edge of a centred text column and reads as a stain.
+
+The wave amplitude is aspect-corrected in `ocean-ripple.js`. The preset states
+the swing in *along* units while the period is in *cross* units, which are the
+same length only on a square canvas; on a 1900×150 band the raw numbers give a
+62 px period with an 80 px swing, so every colour boundary becomes a horizontal
+streak and the whole field reads as one giant chevron.
+
+To turn the drift on, add `data-animated="true"` to the canvas in
+`_layouts/default.liquid` — it stays off under `prefers-reduced-motion`
+regardless.
 
 The `background-image` on `.ocean-hero` is the preset's own CSS approximation,
 kept as the no-JavaScript fallback. It is exact wherever `wave` is zero; the
 canvas exists to add the bend.
 
 **The menu** is a port of a React/framer-motion component to plain CSS — the
-blurred pill, the hover aura, the per-item 3D flip and the active-item glow are
-all `:hover` and `.active` rules, so there is no JavaScript and no build step.
+pill, the hover aura, the per-item 3D flip and the active-item glow are all
+`:hover` and `.active` rules, so there is no JavaScript and no build step. The
+pill is deliberately **opaque**: the original component is translucent, which
+over a gradient picks up whatever is behind it and turns grey.
 Per-item colours come from `_data/nav_style.yml` as `r, g, b` triples, which is
 what lets one declaration feed the glow, the hover glow and the icon colour.
 

@@ -124,9 +124,22 @@
     var th = ((ANGLE - 90) * Math.PI) / 180;
     var ca = Math.cos(th);
     var sa = Math.sin(th);
-    var amp = (WAVE / 100) * 0.35;
     var cx = CENTER_X / 100;
     var cy = CENTER_Y / 100;
+
+    // Aspect-correct the wave amplitude.
+    //
+    // The preset's `(wave / 100) * 0.35` is a displacement in normalised
+    // *along* units, while the sine's period is in normalised *cross* units.
+    // Those are the same physical length only on a square canvas. On this
+    // band — roughly 1900x150 — the period is 62px tall while the swing is 80px
+    // wide, so every colour boundary becomes a near-horizontal streak and the
+    // field reads as one giant chevron rather than as ripples.
+    //
+    // Measuring the swing in cross units instead (multiply by H/W) keeps the
+    // wave's own proportions fixed no matter how the band is shaped, and
+    // reduces to the preset exactly when H == W.
+    var amp = ((WAVE / 100) * 0.35 * h) / w;
 
     var p = 0;
     for (var y = 0; y < h; y++) {

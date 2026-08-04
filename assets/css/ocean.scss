@@ -23,8 +23,14 @@
      link text needs. This is cobalt darkened only far enough to clear it. */
   --ocean-ink: #1f6dae;
 
-  --ocean-hero-height: 240px;
+  --ocean-hero-height: 150px;
   --ocean-menu-radius: 18px;
+
+  /* Peak alpha of the band. The gradient is a wash behind the header, not a
+     picture: at full strength the Navy end is a dark slab hard against the
+     right edge of a centred text column, which reads as a stain rather than as
+     design. See --ocean-hero-mask below. */
+  --ocean-hero-alpha: 0.5;
 }
 
 /* -----------------------------------------------------------------------------
@@ -80,10 +86,20 @@ html[data-theme="dark"] {
     #123a6b 100%
   );
 
-  /* Fades the band into the page background instead of ending on a hard line.
+  /* One gradient does both jobs: the alpha ceiling turns the band into a wash,
+     and the ramp to zero fades it into the page instead of ending on a line.
      Doubled for WebKit, which still wants the prefix for mask-image. */
-  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 46%, transparent 100%);
-  mask-image: linear-gradient(to bottom, #000 0%, #000 46%, transparent 100%);
+  -webkit-mask-image: var(--ocean-hero-mask);
+  mask-image: var(--ocean-hero-mask);
+}
+
+:root {
+  --ocean-hero-mask: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, var(--ocean-hero-alpha)) 0%,
+    rgba(0, 0, 0, calc(var(--ocean-hero-alpha) * 0.62)) 42%,
+    transparent 100%
+  );
 }
 
 .ocean-hero canvas {
@@ -100,19 +116,16 @@ body > footer {
   z-index: 1;
 }
 
-/* The home page carries a taller band, since it has the profile image and the
-   lead paragraph to fill it. */
+/* The home page carries a slightly taller band — it opens with a name and a
+   subtitle rather than straight into a heading. */
 body.ocean-hero-tall {
-  --ocean-hero-height: 330px;
+  --ocean-hero-height: 190px;
 }
 
-/* In dark mode the Foam end of the ramp is a bright white slab against a near
-   black page. Dimming the whole band keeps it a backdrop rather than a lamp. */
-html[data-theme="dark"] .ocean-hero::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(12, 22, 34, 0.55);
+/* Against a near-black page the Foam end of the ramp is a lamp, so the wash is
+   thinner in dark mode than in light. */
+html[data-theme="dark"] {
+  --ocean-hero-alpha: 0.34;
 }
 
 /* -----------------------------------------------------------------------------
@@ -150,26 +163,23 @@ html[data-theme="dark"] .ocean-hero::after {
      overflows its own box by a couple of pixels, and the pill clips. */
   padding: 0.4rem 0.55rem 0.4rem 0.4rem;
   border-radius: var(--ocean-menu-radius);
-  border: 1px solid rgba(46, 124, 192, 0.18);
-  background: linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0.88),
-    rgba(255, 255, 255, 0.66)
-  );
-  -webkit-backdrop-filter: blur(14px) saturate(150%);
-  backdrop-filter: blur(14px) saturate(150%);
-  box-shadow:
-    0 6px 22px -8px rgba(18, 58, 107, 0.4),
-    0 1px 0 rgba(255, 255, 255, 0.7) inset;
+  /* Opaque, not translucent. A frosted panel over a gradient picks up whatever
+     is behind it — over the Navy end it went grey and the labels lost contrast.
+     A solid surface with a hairline border reads as a control instead of as a
+     smudge, and the band still shows around it. The blur is kept for the case
+     that matters: once the page scrolls, body text passes under the bar. */
+  border: 1px solid rgba(18, 58, 107, 0.12);
+  background: rgba(255, 255, 255, 0.97);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 10px -4px rgba(18, 58, 107, 0.28);
   overflow: hidden;
 }
 
 html[data-theme="dark"] .navbar-menu-list {
-  border-color: rgba(127, 198, 230, 0.18);
-  background: linear-gradient(to bottom, rgba(24, 32, 42, 0.9), rgba(24, 32, 42, 0.68));
-  box-shadow:
-    0 6px 22px -8px rgba(0, 0, 0, 0.7),
-    0 1px 0 rgba(255, 255, 255, 0.06) inset;
+  border-color: rgba(127, 198, 230, 0.14);
+  background: rgba(28, 33, 40, 0.97);
+  box-shadow: 0 2px 12px -4px rgba(0, 0, 0, 0.6);
 }
 
 /* Nav-wide aura: fades in when the pill is hovered. */
@@ -260,9 +270,10 @@ html[data-theme="dark"] .nav-item {
 .glow-menu-face {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.42rem 0.85rem;
+  gap: 0.42rem;
+  padding: 0.38rem 0.72rem;
   border-radius: 14px;
+  font-size: 0.95rem;
   white-space: nowrap;
   transform-style: preserve-3d;
   transition:
@@ -298,11 +309,15 @@ html[data-theme="dark"] .nav-item {
   opacity: 1;
 }
 
+/* Icons are muted by default and only take their colour on hover or when
+   active. Solid black icons at label weight competed with the labels for
+   attention and made the bar look heavy. */
 .glow-menu-icon {
   display: inline-flex;
-  width: 1.1em;
+  width: 1.05em;
   justify-content: center;
-  color: var(--global-text-color);
+  font-size: 0.9em;
+  color: var(--global-text-color-light);
   transition: color 0.3s ease;
 }
 
